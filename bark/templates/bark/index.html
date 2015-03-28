@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+{% load postlist %}
+
+{% block body_block %}
+
+{% if user.is_authenticated %}
+  <h2 id="help-3">Welcome back to Bark, {{ user.username }}!</h2>
+{% else %}
+  <h2 id="help-3">Welcome to Bark! <small> A student Q&amp;A discussion site</small></h2>
+{% endif %}
+
+<h4 id="help-5"> Here are the newest, coolest Barks {% if user.is_authenticated %}from tags you follow!{% else %}out there right now!{% endif %}</h4>
+  <span id="help-6"></span>
+  {% csrf_token %}
+  <form class="input-block-level" action="{% url 'add_post' '' %}">
+      <div class="form-group">
+          <label for="new_bark_btn">Can't find it?</label>
+          <button type="submit" class="btn btn-default btn-warning" id="new_bark_btn">Bark about it!</button>
+      </div>
+    </form>
+
+<div id="help-4">
+    {% for topPost in topPosts %}
+      {% get_view topPost %}
+    {% endfor %}
+</div>
+    {% if topPosts.has_other_pages %}
+        {% bootstrap_pagination topPosts %}
+    {% endif %}
+<br />
+
+<!-- If there are no top posts, i.e. if the user hasn't followed any tags -->
+{% if topPosts|length == 0 %}
+<h2>You aren't following any tags!<br /><br /><b>Use the sidebar on the left to get started!</b></h2>
+{% endif %}
+{% endblock %}
+
+{% block js %}
+  {% if user.is_authenticated %}
+    {% include "helpscript.html" with help_url="json/indexA.json" %}
+  {% else %}
+    {% include "helpscript.html" with help_url="json/index.json" %}
+  {% endif %}
+{% endblock %}

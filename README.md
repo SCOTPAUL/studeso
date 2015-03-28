@@ -1,5 +1,7 @@
 <h1> studeso </h1>
-&nbsp;&nbsp;B1 - WebApps Project
+&nbsp;&nbsp;B1 (N-Tier The Matrix) - WebApps Project
+
+For installation instructions [View Bark Readme](https://github.com/projectgoav/studeso/tree/master/bark)
 
 # Team
  - [Paul Cowie](https://github.com/SCOTPAUL)
@@ -15,7 +17,7 @@
  <h4> mockups/ </h4>
   <h6>&nbsp;&nbsp;&nbsp;&nbsp;Sample wireframe of site</h6>
   
- <h4> studeso/ </h4>
+ <h4> bark/ </h4>
   <h6>&nbsp;&nbsp;&nbsp;&nbsp;Project code</h6>
   
  <h4> requirements/ </h4>

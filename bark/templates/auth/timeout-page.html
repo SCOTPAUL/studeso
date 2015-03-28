@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ TITLE }}{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+setTimeout(function() {
+window.location.href = "{% url 'index' %}";
+}, 2000);</script>
+{% endblock %}
+
+{% block body_block %}
+        <h1>{{ MESSAGE }}</h1>
+        <h4>You should be auto-directed to Bark Homepage after 2 seconds. If not, please <a href="{% url 'index' %}">Click Here</a></h4>
+{% endblock %}

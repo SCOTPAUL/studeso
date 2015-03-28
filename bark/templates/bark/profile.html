@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load postlist %}
+
+{% block title %}User Profile :  {{ username }}{% endblock %}
+
+{% block body_block %}
+
+<span class="help-s1"></span>
+
+{% if NOT_FOUND %}
+<h1> Username Not Found </h1>
+
+<p> A user with the given username was not found. Please try your search again!</p>
+{% else %}
+
+  <h1>{{ username }}'s Profile</h1>
+  <div class="col-sm-10">
+  <div class="panel panel-default help-s2">
+      <div class="panel-body">
+      <div class="row">
+        <div class="col-sm-5">
+          <img src="{{ MEDIA_URL }}{{ img }}" class="img-responsive" alt="User's Profile Image" />
+        </div>
+        <div class="col-sm-5">
+          {{ bio }}
+        </div>
+      </div>
+      {% if current %}
+        <h3 class="page-heading help-s3"> Account Options </h3>
+        <div class="row">
+          <div class="col-sm-5">
+            <p><a href="{% url 'passwordChange' %}">Change Password</a></p>
+          </div>
+          <div class="col-sm-5">
+            <p><a href="{% url 'profile' %}">Update Profile</a></p>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+      <div class="panel-footer bark-tags">
+          <b>Total Barks:</b> {{ bark_count }} | <span class="text-muted">Post Likes: {{ post_likes }} | Comment Likes: {{ comment_likes }}</span>
+      <div class="pull-right">
+        <b>Total Bark Views: </b> {{ bark_views }}
+      </div>
+    </div>
+  </div>
+  <br>
+  <h2 class="page-heading"> Posts by User <small><a href="{% url 'view_posts' usertag %}">See more...</a></small></h2>
+  {% if posts %}
+    {% for p in posts %}
+      {% get_view p %}
+    {% endfor %}
+  {% else %}
+  <p class="text-muted">This user has not made any posts</p>
+  {% endif %}
+{% endif %}
+</div>
+{% endblock %}
+
+{% block js %}
+{% include "helpscript.html" with help_url="json/profile.json" %}
+{% endblock %}

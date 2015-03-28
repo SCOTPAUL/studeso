@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% load markdown_deux_tags %}
+
+{% block js %}
+    <script src="{% static 'js/jquery.cookie.js' %}"></script>
+    <script src="{% static 'js/like.js' %}"></script>
+{% include "helpscript.html" with help_url="json/post.json" %}
+{% endblock %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block body_block %}
+{% if post %}
+    <h2 id="pHEAD" class="page-header col-sm-10">{{ post.title }}
+        <small>
+            views: {{ post.views }}, <span class="post-like-num">{{ post_likes }}</span> found this interesting
+        </small>
+    </h2>
+
+    <div class="col-sm-10">
+    <div class="panel panel-primary">
+        <div class="small panel-heading" id="tiime">{{ post.creation_date }}</div>
+        <div class="panel-body">{{ post.content|markdown }}</div>
+        <div class="panel-footer bark-tags" id="tHEAD">
+            <b>Tags: </b>
+            {% if not post.anonymous %}
+                <a class="user" href={% url 'user_profile' post.author.user_tag %}>@{{ post.author.user_tag }}</a>
+            {% endif %}
+
+            {% if post_inst_tag %}
+            <span> | </span>
+            <a class="inst" href={% url 'view_posts' post_inst_tag %}>@{{ post_inst_tag }}</a>
+            {% endif %}
+            {% for post_tag in post_tags %}
+            <span> | </span>
+            <a class="tag" href={% url 'view_posts' post_tag %} >@{{ post_tag }}</a>
+            {% endfor %}
+
+        {% if user.is_authenticated %}
+            {% csrf_token %}
+                <div class="pull-right" id="post-like">
+                {% buttons %}
+                    <button class="like-post-btn" type="submit">
+                        {% if post_liked %}
+                            {% bootstrap_icon "ok" %}
+                        {% else %}
+                            {% bootstrap_icon "thumbs-up" %}
+                        {% endif %}
+                    </button>
+                {% endbuttons %}
+                </div>
+        {% endif %}
+
+        </div>
+    </div>
+    <h3 class="page-header" id="cHEAD">Comments ({{ post.comment_set.all|length }})</h3>
+
+    {% for comment in comments %}
+        <div class="panel panel-default">
+            <div class="small panel-heading">{{ comment.creation_date }}<span class="pull-right small"><span class="comment-like-counter-{{ forloop.counter }}">{{ comment.commentlike_set.all|length }}</span> found this helpful</span></div>
+            <div class="panel-body">{{ comment.content|markdown }}</div>
+            <div class="panel-footer bark-tags">
+                <a href={% url 'user_profile' comment.author %} class="user">@{{ comment.author }}</a>
+                        <div class="pull-right small">
+                        {% if user.is_authenticated %}
+                            {% buttons %}
+                                <button class="comment-like comment-like-{{ forloop.counter }} like-btn" type="submit">
+                                    {% if comment.liked_by_user %}
+                                        {% bootstrap_icon "ok" %}
+                                    {% else %}
+                                        {% bootstrap_icon "thumbs-up" %}
+                                    {% endif %}
+                                </button>
+                            {% endbuttons %}
+                        {% endif %}
+                        </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+        <form id="comment_form" method="post" action=".">
+            {% csrf_token %}
+            <div class="panel panel-primary">
+                <div class="panel-heading"><h3 class="panel-title">Add a comment</h3></div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        {% markdown_allowed %}
+                        <textarea id="id_content" class="form-control" rows="4" required="required" placeholder="Comment here..." name="content" cols="40"></textarea>
+                    </div>
+                    <input class="btn btn-primary" type="submit" name="submit" value="Add Comment" />
+                </div>
+            </div>
+        </form>
+    {% endif %}
+
+  </div>
+
+{% else %}
+    <h2>No post exists!</h2>
+{% endif %}
+{% endblock %}

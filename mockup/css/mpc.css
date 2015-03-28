@@ -33,29 +33,27 @@ i { font-size:14px;}
 	background-color:white;
 	border-width:1px;
 	border-left: 0;
-	border-right: 0;;
+	border-right: 0;
 }
 
 /* Centers NavBar to middle of screen */
 .navbar-nav{
     margin: 0 auto; 
-    display: inline-block;;
     float:none;
-    font-size:16px;		
+    display:inline-block;
+    font-size:16px;	
 }
 
-.Brand img
-{
-	display: inline-block;
 
-}
-
-.Brand h1
+.Brand
 {
 	display: inline-block;
 }
 
-.input-customsize { width:500px;}
+.Brand h1, h3 { display: inline-block;}
+
+#UNI { color: red;}
+
 
 /* Styling for each button on navbar
  *
@@ -65,12 +63,13 @@ i { font-size:14px;}
 #TITLE:hover, #TITLE_A, #TITLE:active { background-color: #3E9393; }
 .Signin:hover,  #Signin_A , #Signin:active { background-color: #FFB445; }
 
-
+#active { background-color:#FFB445;}
 
 /* Index Page Styling */
 /* ------------------ */
 #i_Small { font-size:18px;}
 #i_rSmall {font-size: 16px;}
+#i_rrSmall { font-size:12px;}
 
 
 .btn-search
@@ -81,6 +80,17 @@ i { font-size:14px;}
 .btn-search:hover,
 {
 	background-color:orange;
+}
+
+
+#bbb
+{
+	font-size:14px;
+}
+
+.panel-default > .panel-heading
+{
+	background-color: #FFB445;
 }
 
 

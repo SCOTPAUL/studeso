@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Search - {{ query }} {% endblock %}
+
+{% block body_block %}
+{% load postlist %}
+
+{% if posts %}
+<h2 id="head">Results for "{{ query }}"</h2>
+{% if tags %}
+    <h4>
+    <br>Related tags:
+
+    {% for tag in tags %}
+        <b><a href={% url 'view_posts' tag.name %}>{{ tag.name }}</a></b>  <a href={% url 'follow_tag' tag.name %}>(follow)</a>
+        {% if not forloop.last %}, {% endif %}
+    {% endfor %}
+    </h4>
+{% else %}
+    <h4>No related tags found for "{{ query }}"</h4>
+{% endif %}
+<br>
+<br>
+<div>
+    {% for post in posts %}
+        {% get_view post %}
+    {% endfor %}
+</div>
+
+
+{% else %}
+<h2 id="head">Oh shit-h tzu, no results for "{{ query }}"!</h2>
+<br>
+<h3>
+<i><a href="{% url 'add_post' '' %}">Why not Bark about it?</a></i>
+</h3>
+{% endif %}
+{% endblock %}
+
+{% block js %}
+{% include "helpscript.html" with help_url="json/search.json" %}
+{% endblock %}
