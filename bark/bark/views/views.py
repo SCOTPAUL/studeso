@@ -14,6 +14,7 @@ import unicodedata
 
 numberOfTopPosts = 10
 
+
 # Index Page
 # Returns a welcome message
 def index(request):
@@ -435,6 +436,18 @@ def unfollow_tag(request, tagName):
         return HttpResponseRedirect(referer)
     else:
         return redirect('view_posts', tagName)
+
+
+@login_required
+def inst_tag_valid(request):
+    response = False
+
+    if request.method == 'GET':
+        tag_name = request.GET['tag_name']
+        if str(UserProfile.objects.get(user=request.user).institution_tag) == tag_name:
+            response = True
+    return HttpResponse(response)
+
 
 def about(request):
     context_dict={}

@@ -42,7 +42,8 @@ urlpatterns = patterns('',
 
                        url(r'^like_post/$', views.like_post, name='like_post'),
                        url(r'^like_comment/$', views.like_comment, name='like_comment'),
-                       #
+                       url(r'^inst_tag_valid/$', views.inst_tag_valid, name='inst_tag_valid'),
+
                        url(r'^follow/(.*)', views.follow_tag, name='follow_tag'),
                        url(r'^unfollow/(.*)', views.unfollow_tag, name='unfollow_tag'),
                        # #REGISTRATION VIEWS

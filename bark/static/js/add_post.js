@@ -4,7 +4,6 @@
 
 $(document).ready(function(){
     var taggle = new Taggle('tags', {
-	tags: defaultTagList,
         placeholder: 'Press return to add tag...',
         duplicateTagClass: 'bounce',
         tabIndex: 5,
@@ -12,6 +11,20 @@ $(document).ready(function(){
         onTagAdd: function(event, tag){
             if(tag.length > 30){
                 taggle.remove(tag);
+            }
+            else if(tag.slice(-5) == "ac.uk"){
+                $.get(
+                    '/inst_tag_valid/',
+                    {tag_name: tag},
+                    function(data){
+                        if(data == 'True'){
+                            $('.taggle_text:contains('+tag+')')
+                                .parent().attr('id', 'inst_tag');
+                        }
+                        else if(data == 'False'){
+                            taggle.remove(tag);
+                        }
+                    });
             }
         }
     });
