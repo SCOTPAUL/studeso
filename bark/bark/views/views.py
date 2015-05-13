@@ -1,7 +1,7 @@
 from bark.models import Post, Tag, UserProfile, PostTagging, PostLike, Comment, InstitutionTag, UserTag, CommentLike, TagFollowing
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from bark.forms import PostForm, CommentForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -446,7 +446,7 @@ def inst_tag_valid(request):
         tag_name = request.GET['tag_name']
         if str(UserProfile.objects.get(user=request.user).institution_tag) == tag_name:
             response = True
-    return HttpResponse(response)
+    return JsonResponse({'valid': response})
 
 
 def about(request):

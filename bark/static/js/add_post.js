@@ -17,14 +17,15 @@ $(document).ready(function(){
                     '/inst_tag_valid/',
                     {tag_name: tag},
                     function(data){
-                        if(data == 'True'){
+                        if(data['valid']){
                             $('.taggle_text:contains('+tag+')')
                                 .parent().attr('id', 'inst_tag');
                         }
-                        else if(data == 'False'){
+                        else {
                             taggle.remove(tag);
                         }
-                    });
+                    },
+                    "json");
             }
         }
     });
